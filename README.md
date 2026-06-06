@@ -1,6 +1,6 @@
 # pic-create
 
-`pc` is a minimal CLI tool for the OpenAI Image API. It reads an aspect ratio and a prompt, calls `/v1/images/generations`, and saves the result as `png` or `webp`.
+`pc` is a minimal CLI tool for the OpenAI Image API. It can generate an image from an aspect ratio and a prompt, or edit an input image with a prompt. Results are saved as `png` or `webp`.
 
 ## Installation
 
@@ -27,3 +27,11 @@ pc 9:16 prompt.txt -o ./out -n poster.png
 
 The default model is `gpt-image-2`, and the default long edge is `1536` pixels. Output dimensions are scaled proportionally and aligned to multiples of 16 as required by the Image API.
 
+## Edit an Image
+
+```bash
+pc edit input.png "Replace the background with a clean white studio backdrop" -o ./out -n edited
+pc edit input.png --prompt-file edit-prompt.txt -f webp --compression 80 -n edited.webp
+```
+
+Edit mode reads the prompt the same way as generate mode: pass text directly, pass a path as the prompt argument, or use `--prompt-file`.
