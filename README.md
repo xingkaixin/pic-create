@@ -1,27 +1,34 @@
 # pic-create
 
-`pc` is a minimal CLI tool for the OpenAI Image API. It can generate an image from an aspect ratio and a prompt, or edit an input image with a prompt. Results are saved as `png` or `webp`.
+`pc` is a minimal Go CLI that generates or edits images through a ChatGPT OAuth session. It reuses the login managed by Codex CLI, so it does not need an API key.
 
 ## Installation
 
 ```bash
-uv tool install .
+go install github.com/xingkaixin/pic-create/cmd/pc@latest
 ```
 
-## Environment Variables
+To install from a local checkout instead:
 
 ```bash
-export PC_API_KEY="..."
-export PC_BASE_URL="https://api.openai.com/v1"
+go install ./cmd/pc
 ```
 
-`PC_BASE_URL` is optional. When set, it must be a base URL accepted by the OpenAI Python SDK (typically includes `/v1`).
+## Authentication
+
+Sign in through Codex CLI before using `pc`:
+
+```bash
+codex login
+```
+
+`pc` reads `~/.codex/auth.json` and refreshes the OAuth session when needed. It preserves the rest of the Codex auth file when writing refreshed tokens.
 
 ## Usage
 
 ```bash
 pc 16:9 "A cinematic city skyline at sunset" -o ./out -n skyline
-pc 2.35:1 --prompt-file prompt.txt -f webp --compression 80 -n banner.webp
+pc 2.35:1 --prompt-file prompt.txt -n banner.png
 pc 9:16 prompt.txt -o ./out -n poster.png
 ```
 
@@ -31,7 +38,9 @@ The default model is `gpt-image-2`, and the default long edge is `1536` pixels. 
 
 ```bash
 pc edit input.png "Replace the background with a clean white studio backdrop" -o ./out -n edited
-pc edit input.png --prompt-file edit-prompt.txt -f webp --compression 80 -n edited.webp
+pc edit input.png --prompt-file edit-prompt.txt --input-fidelity high -n edited.png
 ```
 
 Edit mode reads the prompt the same way as generate mode: pass text directly, pass a path as the prompt argument, or use `--prompt-file`.
+
+The command-line arguments remain compatible with the previous API-key version. The ChatGPT OAuth image route currently returns PNG only, so `--format webp` reports an error and `--compression` has no effect with PNG output.
