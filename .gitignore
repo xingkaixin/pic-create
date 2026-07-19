@@ -1,16 +1,6 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
-
-# Virtual environments
-.venv
-
-# ruff
-.ruff_cache
+# Go build output
+/pc
+coverage.out
 
 # output
 out/
