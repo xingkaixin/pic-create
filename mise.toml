@@ -39,6 +39,10 @@ run = "go install ./cmd/pc"
 description = "Run pc from source"
 run = "go run ./cmd/pc"
 
+[tasks.smoke]
+description = "Run the OAuth generate and edit smoke test"
+run = "./scripts/smoke-test.sh"
+
 [tasks.check]
 description = "Run all validation checks"
 depends = ["format-check", "lint", "test-race", "build"]

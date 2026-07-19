@@ -55,3 +55,11 @@ mise run check
 ```
 
 Run `mise tasks ls` to see the available formatting, testing, linting, building, installation, and source-run tasks.
+
+To verify the real OAuth generation and editing flow, run:
+
+```bash
+mise run smoke
+```
+
+The smoke test keeps both images under a new `out/smoke-test.*` directory for visual comparison. Pass a non-existing output directory after `--` to choose the location: `mise run smoke -- /tmp/pic-create-smoke`.
