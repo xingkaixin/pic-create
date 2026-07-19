@@ -1,0 +1,44 @@
+[tools]
+go = "1.26.5"
+
+[tasks.format]
+description = "Format Go source files"
+run = "gofmt -w cmd internal"
+
+[tasks.format-check]
+description = "Check Go source formatting"
+run = '''
+unformatted="$(gofmt -l cmd internal)"
+if [ -n "$unformatted" ]; then
+  echo "$unformatted"
+  exit 1
+fi
+'''
+
+[tasks.test]
+description = "Run unit tests"
+run = "go test ./..."
+
+[tasks.test-race]
+description = "Run unit tests with the race detector"
+run = "go test -race ./..."
+
+[tasks.lint]
+description = "Run Go static analysis"
+run = "go vet ./..."
+
+[tasks.build]
+description = "Build the pc binary"
+run = "go build -o pc ./cmd/pc"
+
+[tasks.install]
+description = "Install pc into GOBIN"
+run = "go install ./cmd/pc"
+
+[tasks.pc]
+description = "Run pc from source"
+run = "go run ./cmd/pc"
+
+[tasks.check]
+description = "Run all validation checks"
+depends = ["format-check", "lint", "test-race", "build"]

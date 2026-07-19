@@ -44,3 +44,14 @@ pc edit input.png --prompt-file edit-prompt.txt --input-fidelity high -n edited.
 Edit mode reads the prompt the same way as generate mode: pass text directly, pass a path as the prompt argument, or use `--prompt-file`.
 
 The command-line arguments remain compatible with the previous API-key version. The ChatGPT OAuth image route currently returns PNG only, so `--format webp` reports an error and `--compression` has no effect with PNG output.
+
+## Development
+
+Install the pinned Go toolchain and run the full validation suite with mise:
+
+```bash
+mise install
+mise run check
+```
+
+Run `mise tasks ls` to see the available formatting, testing, linting, building, installation, and source-run tasks.
