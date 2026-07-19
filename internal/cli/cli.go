@@ -12,15 +12,11 @@ import (
 func Run(arguments []string, stdout, stderr io.Writer) int {
 	parsed, err := parseArgs(arguments)
 	if err != nil {
-		fmt.Fprintf(stderr, "pc: error: %v\n", err)
+		fmt.Fprintf(stderr, "pc: error: %v\n\n%s", err, helpText(arguments))
 		return 2
 	}
 	if parsed.help {
-		if parsed.kind == editCommand {
-			fmt.Fprint(stdout, editHelp)
-		} else {
-			fmt.Fprint(stdout, generateHelp)
-		}
+		fmt.Fprint(stdout, helpText(arguments))
 		return 0
 	}
 
@@ -31,6 +27,13 @@ func Run(arguments []string, stdout, stderr io.Writer) int {
 	}
 	fmt.Fprintln(stdout, target)
 	return 0
+}
+
+func helpText(arguments []string) string {
+	if len(arguments) > 0 && arguments[0] == "edit" {
+		return editHelp
+	}
+	return generateHelp
 }
 
 func execute(ctx context.Context, parsed options) (string, error) {
